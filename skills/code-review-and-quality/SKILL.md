@@ -355,6 +355,10 @@ For triaging `npm audit` findings and supply-chain risk (typosquatting, compromi
 
 | Rationalization | Reality |
 |---|---|
+| "The connector works against the live API, the fixture test is redundant" | The contract test is what every future connector is measured against. No connector merges without it. |
+| "tenant_id filtering is obvious, no test needed" | Cross-tenant reads are the worst bug this product can ship. Every query that touches tenant data has a test proving isolation. |
+| "The log line is helpful for debugging, the token is truncated anyway" | Partial secrets are still secrets. Log identifiers and hashes, never credential material. |
+| "The ADR can wait until the design settles" | The ADR is written in the same session as the decision, or the reasoning is lost. Update it later if the design changes. |
 | "It works, that's good enough" | Working code that's unreadable, insecure, or architecturally wrong creates debt that compounds. |
 | "I wrote it, so I know it's correct" | Authors are blind to their own assumptions. Every change benefits from another set of eyes. |
 | "We'll clean it up later" | Later never comes. The review is the quality gate — use it. Require cleanup before merge, not after. |

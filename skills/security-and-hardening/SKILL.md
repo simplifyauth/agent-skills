@@ -477,6 +477,11 @@ For detailed security checklists and pre-commit verification steps, see `../../r
 
 | Rationalization | Reality |
 |---|---|
+| "It is only a test fixture, a real-looking key is fine" | Fixtures use the literal `REDACTED-TEST-KEY`. The secret scanner runs on fixtures too; one recorded token in git is a leak. |
+| "This token does not need a TTL, it is internal" | Every credential the product mints has a TTL; internal tokens default to 15 minutes. Internal is where lateral movement happens. |
+| "Revoke is simple, no verify step needed" | A finding is closed only when the verify step re-reads the target and confirms the credential no longer works. Revocation without proof is a hope. |
+| "Dry-run can come later" | No write path to a customer system merges without a dry-run flag and a test proving dry-run changes nothing. |
+| "Fail open here, the policy engine is rarely down" | The product is a control point. If the policy engine or broker is unreachable, deny and alert; never allow by default. |
 | "This is an internal tool, security doesn't matter" | Internal tools get compromised. Attackers target the weakest link. |
 | "We'll add security later" | Security retrofitting is 10x harder than building it in. Add it now. |
 | "No one would try to exploit this" | Automated scanners will find it. Security by obscurity is not security. |
